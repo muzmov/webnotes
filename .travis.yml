@@ -15,7 +15,7 @@ deploy:
   provider: elasticbeanstalk
   region: "us-east-2"
   app: "webnotes"
-  env: "Webnotes-env"
+  env: "webnotes-environment"
   bucket_name: "elasticbeanstalk-us-east-2-995459693010"
   bucket_path: "webnotes"
   on:
