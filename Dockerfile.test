@@ -4,4 +4,5 @@ WORKDIR /usr/app
 ADD pom.xml .
 RUN mvn dependency:go-offline
 ADD . .
+ENV spring_profiles_active test
 CMD ["mvn", "test"]
