@@ -8,16 +8,13 @@ before_install:
 script:
   - docker run muzmov/webnotes-test
 
-after_success:
-  - docker build -t muzmov/webnotes .
-
 deploy:
   provider: elasticbeanstalk
   region: "us-east-2"
-  app: "webnotes"
-  env: "webnotes-environment"
+  app: "notes"
+  env: "notes-env"
   bucket_name: "elasticbeanstalk-us-east-2-995459693010"
-  bucket_path: "webnotes"
+  bucket_path: "notes"
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
