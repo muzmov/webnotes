@@ -12,5 +12,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "note_seq")
     private Long id;
     private String text;
+    private String context;
     private Integer priority;
+    private Integer timeEstimation;
 }

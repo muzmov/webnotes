@@ -23,7 +23,12 @@ public class NoteController {
     }
 
     @PostMapping("/note")
-    public void saveNote(@RequestBody Note note) {
-        noteRepository.save(note);
+    public Long saveNote(@RequestBody Note note) {
+        return noteRepository.save(note).getId();
+    }
+
+    @DeleteMapping("/note/{id}")
+    public void deleteNote(@PathVariable Long id) {
+        noteRepository.deleteById(id);
     }
 }

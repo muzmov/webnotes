@@ -18,8 +18,10 @@ module.exports = {
         open: true,
         before: (app) => {
             app.get('/api/notes', (req, res) => res.send([
-                {id: '1', text: 'note 1'},
-                {id: '2', text: 'note 2'}
+                {id: 1, text: 'Забрать кофе', context: 'По пути с работы', priority: 1, timeEstimation: 15},
+                {id: 2, text: 'Выбрать тур во Вьетнам', context: 'Дома', priority: 2, timeEstimation: 5 * 60},
+                {id: 3, text: 'Проверить логирование на ммв', context: 'На работе', priority: 1, timeEstimation: 30},
+                {id: 4, text: 'Сделать мониторинг', context: 'На работе', priority: 2, timeEstimation: 2 * 60}
             ]));
         }
     },
