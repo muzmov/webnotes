@@ -1,54 +1,55 @@
 import React from 'react'
-import NotesTable from "./notestable/NotesTable";
-import NoteCard from './notecard/NoteCard'
+import TasksTable from "./table/TasksTable";
+import TaskCard from './card/TaskCard'
 
 export default class App extends React.Component {
     state = {
-        notes: [],
-        selectedNoteId: null
+        tasks: [],
+        selectedTaskId: null
     }
 
     componentDidMount = () => {
-        this.loadAllNotes();
+        this.loadAllTasks();
     };
 
-    loadAllNotes = () => {
-        fetch('/api/notes')
+    loadAllTasks = () => {
+        fetch('/api/tasks')
             .then(response => response.json())
-            .then(notes => this.setState({notes, selectedNoteId: null}));
+            .then(tasks => this.setState({tasks, selectedTaskId: null}));
     };
 
-    saveNoteHandler = (note) => {
-        fetch('/api/note', {
+    saveTaskHandler = (task) => {
+        console.log(task)
+        fetch('/api/task', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(note)
+            body: JSON.stringify(task)
         })
             .then((response) => response.json())
             .then(id => {
-                note.id = id
-                const notes = this.state.notes.filter(it => it.id !== id)
-                notes.push(note)
-                this.setState({notes})
+                task.id = id
+                const tasks = this.state.tasks.filter(it => it.id !== id)
+                tasks.push(task)
+                this.setState({tasks})
             })
     }
 
-    deleteNoteHandler = (id) => {
-        fetch(`/api/note/${id}`, {
+    deleteTaskHandler = (id) => {
+        fetch(`/api/task/${id}`, {
             method: 'DELETE'
         }).then(() => {
-            const notes = this.state.notes.filter(note => note.id !== id)
+            const tasks = this.state.tasks.filter(task => task.id !== id)
             this.setState({
-                notes,
-                selectedNoteId: null
+                tasks,
+                selectedTaskId: null
             })
         })
     }
 
-    selectNoteHandler = (id) => this.setState({selectedNoteId: id})
+    selectTaskHandler = (id) => this.setState({selectedTaskId: id})
 
     render() {
-        const selectedNote = this.state.notes.find(note => note.id === this.state.selectedNoteId)
+        const selectedTask = this.state.tasks.find(task => task.id === this.state.selectedTaskId)
         return (
             <React.Fragment>
                 <nav className="navbar navbar-light bg-light">
@@ -57,15 +58,15 @@ export default class App extends React.Component {
                 <div className='container'>
                     <div className="row">
                         <div className="col-sm">
-                            <NotesTable notes={this.state.notes} selectHandler={this.selectNoteHandler}/>
+                            <TasksTable tasks={this.state.tasks} selectHandler={this.selectTaskHandler}/>
                             <button className="btn btn-primary" type="submit"
-                                    onClick={() => this.selectNoteHandler(null)}>Добавить заметку
+                                    onClick={() => this.selectTaskHandler(null)}>Добавить задачу
                             </button>
                         </div>
                         <div className="col-sm">
-                            <NoteCard note={selectedNote}
-                                      saveNoteHandler={this.saveNoteHandler}
-                                      deleteNoteHandler={() => this.deleteNoteHandler(selectedNote.id)}/>
+                            <TaskCard task={selectedTask}
+                                      saveTaskHandler={this.saveTaskHandler}
+                                      deleteTaskHandler={() => this.deleteTaskHandler(selectedTask.id)}/>
                         </div>
                     </div>
                 </div>

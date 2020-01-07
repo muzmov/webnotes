@@ -1,7 +1,7 @@
 import React from 'react'
-import NoteRow from './NoteRow'
+import TaskRow from './TaskRow'
 
-const NotesTable = props => (
+const TasksTable = props => (
     <table className="table table-hover">
         <thead>
         <tr>
@@ -13,10 +13,10 @@ const NotesTable = props => (
         </tr>
         </thead>
         <tbody>
-        {props.notes.map(note => <NoteRow key={note.id} note={note}
-                                          selectHandler={() => props.selectHandler(note.id)}/>)}
+        {props.tasks.map(task => <TaskRow key={task.id} task={task}
+                                          selectHandler={() => props.selectHandler(task.id)}/>)}
         </tbody>
     </table>
 );
 
-export default NotesTable
+export default TasksTable

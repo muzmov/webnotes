@@ -1,5 +1,6 @@
 package net.kuryshev.webnotes;
 
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +12,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class NoteRepositoryTest {
+@AutoConfigureEmbeddedDatabase
+public class TaskRepositoryTest {
     @Autowired
-    private NoteRepository noteRepository;
+    private TaskRepository taskRepository;
 
     @Test
     public void testRepo() {
-        Note note = new Note();
-        note.setText("TEST");
-        note.setPriority(1);
+        Task task = new Task();
+        task.setText("TEST");
+        task.setPriority(1);
+        task.setUsername("leshiffre");
 
-        noteRepository.save(note);
-        assertThat(noteRepository.findAll()).hasSize(1).allSatisfy(it -> {
+        taskRepository.save(task);
+        assertThat(taskRepository.findAll()).hasSize(1).allSatisfy(it -> {
             assertThat(it.getId()).isNotNull();
             assertThat(it.getText()).isEqualTo("TEST");
             assertThat(it.getPriority()).isEqualTo(1);
