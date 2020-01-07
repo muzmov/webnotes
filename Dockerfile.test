@@ -1,5 +1,12 @@
 FROM maven:latest as builder
 
+RUN groupadd -g 999 test && \
+    useradd -r -u 999 -g test -m test
+RUN mkdir /usr/app
+RUN chmod 777 /usr/app
+
+USER test
+
 WORKDIR /usr/app
 ADD pom.xml .
 RUN mvn dependency:go-offline
