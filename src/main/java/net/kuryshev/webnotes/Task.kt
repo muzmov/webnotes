@@ -1,22 +1,18 @@
-package net.kuryshev.webnotes;
+package net.kuryshev.webnotes
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.persistence.*
 
-import javax.persistence.*;
-
-@Data
 @Entity
-public class Task {
+data class Task(
     @Id
     @SequenceGenerator(name = "task_seq", sequenceName = "task_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
-    private Long id;
-    private String text;
-    private String context;
-    private Integer priority;
-    private Integer timeEstimation;
-
+    var id: Long? = null,
+    var text: String = "",
+    var context: String = "",
+    var priority: Int = 1,
+    var timeEstimation: Int = 0,
     @JsonIgnore
-    private String username;
-}
+    var username: String = ""
+)

@@ -1,34 +1,27 @@
-package net.kuryshev.webnotes;
+package net.kuryshev.webnotes
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-public class TaskService {
-    @Autowired
-    private TaskRepository taskRepository;
+class TaskService(val taskRepository: TaskRepository) {
 
-    public Task getTaskForUser(Long id, String username) {
-        return taskRepository.getByIdAndUsername(id, username).orElse(null);
+    fun getTaskForUser(id: Long, username: String): Task {
+        return taskRepository.getByIdAndUsername(id, username) ?: throw IllegalArgumentException()
     }
 
-    public List<Task> getTasksForUser(String username) {
-        return taskRepository.findAllByUsername(username);
+    fun getTasksForUser(username: String): List<Task> {
+        return taskRepository.findAllByUsername(username)
     }
 
-    public Long saveTaskForUser(Task task, String username) {
-        if (task.getId() != null) {
-            taskRepository.getByIdAndUsername(task.getId(), username).orElseThrow(IllegalArgumentException::new);
-        }
-        task.setUsername(username);
-        return taskRepository.save(task).getId();
+    fun saveTaskForUser(task: Task, username: String): Long {
+        task.id?.let { taskRepository.getByIdAndUsername(it, username) ?: throw IllegalArgumentException() }
+        task.username = username
+        return taskRepository.save(task).id!!
     }
 
-    public void deleteTaskForUser(Long id, String username) {
-        taskRepository.deleteByIdAndUsername(id, username);
+    fun deleteTaskForUser(id: Long, username: String) {
+        taskRepository.deleteByIdAndUsername(id, username)
     }
 }

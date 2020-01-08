@@ -1,14 +1,14 @@
-package net.kuryshev.webnotes.flyway;
+package net.kuryshev.webnotes.flyway
 
-import org.flywaydb.core.Flyway;
-import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
-import org.springframework.stereotype.Component;
+import org.flywaydb.core.Flyway
+import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy
+import org.springframework.stereotype.Component
 
 @Component
-public class FlywayMigration implements FlywayMigrationStrategy {
-    @Override
-    public void migrate(Flyway flyway) {
-        flyway.repair();
-        flyway.migrate();
+class FlywayMigration : FlywayMigrationStrategy {
+
+    override fun migrate(flyway: Flyway) {
+        flyway.repair()
+        flyway.migrate()
     }
 }

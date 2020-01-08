@@ -1,13 +1,11 @@
-package net.kuryshev.webnotes;
+package net.kuryshev.webnotes
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-public class WebnotesApplication {
+class WebnotesApplication
 
-    public static void main(String[] args) {
-        SpringApplication.run(WebnotesApplication.class, args);
-    }
-
+fun main(args: Array<String>) {
+    SpringApplication.run(WebnotesApplication::class.java, *args)
 }

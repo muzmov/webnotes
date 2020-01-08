@@ -1,35 +1,21 @@
-package net.kuryshev.webnotes;
+package net.kuryshev.webnotes
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.List;
+import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api")
-public class TaskController {
-
-    @Autowired
-    private TaskService taskService;
+class TaskController(val taskService: TaskService) {
 
     @GetMapping("/task/{id}")
-    public Task getTask(@PathVariable Long id, Principal principal) {
-        return taskService.getTaskForUser(id, principal.getName());
-    }
+    fun getTask(@PathVariable id: Long, principal: Principal) = taskService.getTaskForUser(id, principal.name)
 
     @GetMapping("/tasks")
-    public List<Task> getTasks(Principal principal) {
-        return taskService.getTasksForUser(principal.getName());
-    }
+    fun getTasks(principal: Principal) = taskService.getTasksForUser(principal.name)
 
     @PostMapping("/task")
-    public Long saveTask(@RequestBody Task task, Principal principal) {
-        return taskService.saveTaskForUser(task, principal.getName());
-    }
+    fun saveTask(@RequestBody task: Task, principal: Principal) = taskService.saveTaskForUser(task, principal.name)
 
     @DeleteMapping("/task/{id}")
-    public void deleteTask(@PathVariable Long id, Principal principal) {
-        taskService.deleteTaskForUser(id, principal.getName());
-    }
+    fun deleteTask(@PathVariable id: Long, principal: Principal) = taskService.deleteTaskForUser(id, principal.name)
 }
