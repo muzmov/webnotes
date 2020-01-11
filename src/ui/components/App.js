@@ -1,6 +1,5 @@
 import React from 'react'
 import TasksTable from "./table/TasksTable";
-import TaskCard from './card/TaskCard'
 
 export default class App extends React.Component {
     state = {
@@ -28,8 +27,8 @@ export default class App extends React.Component {
             .then((response) => response.json())
             .then(id => {
                 task.id = id
-                const tasks = this.state.tasks.filter(it => it.id !== id)
-                tasks.push(task)
+                const tasks = this.state.tasks.map(it => it.id === id ? task : it)
+                if (!tasks.includes(task)) tasks.push(task)
                 this.setState({tasks})
             })
     }
@@ -58,15 +57,7 @@ export default class App extends React.Component {
                 <div className='container'>
                     <div className="row">
                         <div className="col-sm">
-                            <TasksTable tasks={this.state.tasks} selectHandler={this.selectTaskHandler}/>
-                            <button className="btn btn-primary" type="submit"
-                                    onClick={() => this.selectTaskHandler(null)}>Добавить задачу
-                            </button>
-                        </div>
-                        <div className="col-sm">
-                            <TaskCard task={selectedTask}
-                                      saveTaskHandler={this.saveTaskHandler}
-                                      deleteTaskHandler={() => this.deleteTaskHandler(selectedTask.id)}/>
+                            <TasksTable tasks={this.state.tasks} deleteHandler={this.deleteTaskHandler} saveHandler={this.saveTaskHandler}/>
                         </div>
                     </div>
                 </div>
