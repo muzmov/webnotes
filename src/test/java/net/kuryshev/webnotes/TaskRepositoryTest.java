@@ -1,6 +1,8 @@
 package net.kuryshev.webnotes;
 
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
+import net.kuryshev.webnotes.task.Task;
+import net.kuryshev.webnotes.task.TaskRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

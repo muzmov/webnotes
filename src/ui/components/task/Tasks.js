@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {EDIT_MODE, SHOW_MODE, TaskRow} from './TaskRow'
+import TaskType from "./type/TaskType";
 
-const TasksTable = props => (
+const Tasks = props => (
     <table className="table table-hover">
         <thead>
         <tr>
@@ -27,4 +29,10 @@ const TasksTable = props => (
     </table>
 );
 
-export default TasksTable
+Tasks.propTypes = {
+    tasks: PropTypes.arrayOf(TaskType).isRequired,
+    deleteHandler: PropTypes.func.isRequired,
+    saveHandler: PropTypes.func.isRequired,
+}
+
+export default Tasks

@@ -26,15 +26,30 @@ module.exports = {
 
             app.get('/api/tasks', (req, res) => res.send([
                 {id: 1, text: 'Забрать кофе', context: 'По пути с работы', priority: 1, timeEstimation: 15},
-                {id: 2, text: 'Выбрать тур во Вьетнам', context: 'Дома', priority: 2, timeEstimation: 5 * 60},
-                {id: 3, text: 'Проверить логирование на ммв', context: 'На работе', priority: 1, timeEstimation: 30},
-                {id: 4, text: 'Сделать мониторинг', context: 'На работе', priority: 2, timeEstimation: 2 * 60}
+                {id: 2, text: 'Выбрать отель в Дубае', context: 'Дома', priority: 2, timeEstimation: 30},
+                {id: 3, text: 'Добавить проекты', context: 'Дома', priority: 1, timeEstimation: 30},
+                {id: 4, text: 'Добавить справочную информацию', context: 'Дома', priority: 2, timeEstimation: 2 * 60}
+            ]));
+            app.get('/api/projects', (req, res) => res.send([
+                {id: 2, title: 'Отдых в феврале'},
+                {id: 3, title: 'Webnotes'},
+            ]));
+            app.get('/api/notes', (req, res) => res.send([
+                {id: 1, title: 'Идеи', text: "Это просто текст для заметки"},
+                {id: 2, title: 'Webnotes', text: "Это просто текст для заметки webnotes"}
             ]));
             app.post('/api/task', (req, res) => {
-                console.log(req.body)
+                res.json(req.body.id || Math.floor(Math.random() * Math.floor(100000)));
+            });
+            app.post('/api/project', (req, res) => {
+                res.json(req.body.id || Math.floor(Math.random() * Math.floor(100000)));
+            });
+            app.post('/api/note', (req, res) => {
                 res.json(req.body.id || Math.floor(Math.random() * Math.floor(100000)));
             });
             app.delete('/api/task', (req, res) => res.sendStatus(200));
+            app.delete('/api/project', (req, res) => res.sendStatus(200));
+            app.delete('/api/note', (req, res) => res.sendStatus(200));
         }
     },
 

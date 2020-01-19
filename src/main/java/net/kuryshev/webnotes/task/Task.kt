@@ -1,4 +1,4 @@
-package net.kuryshev.webnotes
+package net.kuryshev.webnotes.task
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
