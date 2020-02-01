@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import TaskType from "./type/TaskType";
+import ProjectType from "../project/type/ProjectType";
 
 export const SHOW_MODE = 'SHOW'
 export const EDIT_MODE = 'EDIT'
@@ -23,8 +24,17 @@ export class TaskRow extends React.Component {
         }
     }
 
+    changeProjectIdHandler = (projectId) => {
+        const task = Object.assign({}, this.state.task)
+        if (task.projectId !== projectId) {
+            task.projectId = projectId
+            task.project = this.props.projects.find(it => it.id == projectId) || null
+            this.setState({task})
+        }
+    }
+
     saveHandler = () => {
-        const task = Object.assign({priority: 1}, this.state.task)
+        const task = {...this.state.task}
         this.props.saveHandler(task)
         if (this.state.isNew) {
             this.setState({task: {}})
@@ -35,62 +45,69 @@ export class TaskRow extends React.Component {
 
     render() {
         const task = this.state.task
-        const timeString = task.timeEstimation > 60 ? (task.timeEstimation / 60) + ' ч.' : task.timeEstimation + ' мин.'
-        if (this.state.mode === SHOW_MODE) {
-            return (
-                <tr>
-                    <th scope="row">{task.id}</th>
-                    <td>{task.text}</td>
-                    <td>{task.context}</td>
-                    <td>{task.priority}</td>
-                    <td>{timeString}</td>
-                    <td>
-                        <button className="btn btn-primary" onClick={() => this.changeModeHandler(EDIT_MODE)}>
-                            <i className="fa fa-edit"/>
-                        </button>
-                        <button className="btn btn-danger ml-1" onClick={this.props.deleteHandler}>
-                            <i className="fa fa-trash"/>
-                        </button>
-                    </td>
-                </tr>
-            )
-        } else {
-            return (
-                <tr>
-                    <th scope="row">{task.id || ""}</th>
-                    <td>
-                        <input type="text" className="form-control" id="taskTextInput"
-                               placeholder="Что надо сделать?" value={task.text || ''} onChange={e => this.changeHandler('text', e.target.value)}/>
-                    </td>
-                    <td>
-                        <input type="text" className="form-control" id="taskContextInput"
-                               placeholder="Контекст" value={task.context || ''} onChange={e => this.changeHandler('context', e.target.value)}/>
-                    </td>
-                    <td>
-                        <select className="form-control" id="taskPriorityInput" value={task.priority || ''} onChange={e => this.changeHandler('priority', e.target.value)}>
-                            {[1, 2, 3, 4, 5].map(i => <option key={i} value={i}>{i}</option> )}
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" className="form-control" id="taskTimeEstimationInput"
-                               placeholder="Оценка времени" value={task.timeEstimation || ''} onChange={e => this.changeHandler('timeEstimation', +e.target.value)}/>
-                    </td>
-                    <td>
-                        <button className="btn btn-primary" onClick={this.saveHandler}>
-                            <i className="fa fa-save"/>
-                        </button>
-                        {!this.state.isNew ? <button className="btn btn-danger ml-1" onClick={this.props.deleteHandler}>
-                            <i className="fa fa-trash"/>
-                        </button> : ''}
-                    </td>
-                </tr>
-            )
-        }
+        return this.state.mode === SHOW_MODE ? this.showTaskItem(task) : this.editTaskItem(task)
+    }
+
+    showTaskItem(task) {
+        return <tr>
+            <th scope="row">{task.id}</th>
+            <td>{task.text}</td>
+            <td>{task.context}</td>
+            <td>{(task.project || {}).title || ''}</td>
+            <td>
+                <button className="btn btn-primary" onClick={() => this.changeModeHandler(EDIT_MODE)}>
+                    <i className="fa fa-edit"/>
+                </button>
+                <button className="btn btn-danger ml-1" onClick={this.props.deleteHandler}>
+                    <i className="fa fa-trash"/>
+                </button>
+            </td>
+        </tr>;
+    }
+
+    editTaskItem = (task) => (
+        <tr>
+            <th scope="row">{task.id || ""}</th>
+            <td>
+                <input type="text" className="form-control" id="taskTextInput"
+                       placeholder="Что надо сделать?" value={task.text || ''}
+                       onChange={e => this.changeHandler('text', e.target.value)}/>
+            </td>
+            <td>
+                <input type="text" className="form-control" id="taskContextInput"
+                       placeholder="Контекст" value={task.context || ''}
+                       onChange={e => this.changeHandler('context', e.target.value)}/>
+            </td>
+            <td>
+                {this.selectProjectItem(task)}
+            </td>
+            <td>
+                <button className="btn btn-primary" onClick={this.saveHandler}>
+                    <i className="fa fa-save"/>
+                </button>
+                {!this.state.isNew ? <button className="btn btn-danger ml-1" onClick={this.props.deleteHandler}>
+                    <i className="fa fa-trash"/>
+                </button> : ''}
+            </td>
+        </tr>
+    )
+
+    selectProjectItem = (task) => {
+        const projects = this.props.projects.slice()
+        projects.push({id: null, title: ''});
+        projects.sort((b, a) => b.title.localeCompare(a.title))
+        return (
+            <select className="form-control" id="taskProjectInput" value={task.projectId}
+                    onChange={e => this.changeProjectIdHandler( e.target.value === null ? null : +e.target.value)}>
+                {projects.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
+            </select>
+        )
     }
 }
 
 TaskRow.propTypes = {
     task: TaskType,
+    projects: PropTypes.arrayOf(ProjectType).isRequired,
     mode: PropTypes.oneOf([EDIT_MODE, SHOW_MODE]).isRequired,
     saveHandler: PropTypes.func.isRequired,
     deleteHandler: PropTypes.func

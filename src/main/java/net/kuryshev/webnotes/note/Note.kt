@@ -1,5 +1,6 @@
 package net.kuryshev.webnotes.note
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -9,5 +10,9 @@ data class Note(
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "note_seq")
         var id: Long? = null,
         var title: String = "",
-        var text: String = ""
+        var text: String = "",
+        @Column(name = "project_id")
+        var projectId: Long? = null,
+        @JsonIgnore
+        var username: String = ""
 )

@@ -1,37 +1,63 @@
 import React from 'react'
-import {EDIT_MODE, ProjectRow, SHOW_MODE} from './ProjectRow'
 import PropTypes from "prop-types";
+import ProjectsTable from "./ProjectsTable";
 import ProjectType from "./type/ProjectType";
+import ProjectCard from "./ProjectCard";
 
-const Projects = props => (
-    <table className="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Проект</th>
-            <th scope="col">Задачи</th>
-            <th scope="col">Справочная информация</th>
-            <th scope="col">Действие</th>
-        </tr>
-        </thead>
-        <tbody>
-        {props.projects.map(project => <ProjectRow key={project.id} project={project}
-                                             deleteHandler={() => props.deleteHandler(project.id)}
-                                             saveHandler={props.saveHandler}
-                                             mode={SHOW_MODE}
-        />)}
-        <ProjectRow
-                 saveHandler={props.saveHandler}
-                 mode={EDIT_MODE}
-        />
-        </tbody>
-    </table>
-);
+class Projects extends React.Component {
+
+    state = {
+        selectedProject: this.props.projects[0]
+    }
+
+    componentWillReceiveProps(props, state) {
+        console.log(props)
+        console.log(state)
+        console.log(this.state)
+        console.log(props.projects.some(p => p.id === this.state.selectedProject.id))
+        if (!props.projects.some(p => p.id === this.state.selectedProject.id)) {
+            this.setState({selectedProject: props.projects[0]})
+        }
+    }
+
+    selectProjectHandler = (project) => this.setState({selectedProject: project})
+
+    deleteProjectHandler = (projectId) => {
+        this.props.deleteProjectHandler(projectId)
+        //this.selectProjectHandler(this.props.projects[0])
+    }
+
+    saveProjectHandler = (project) => {
+        this.props.saveProjectHandler(project)
+        //this.selectProjectHandler(this.props.projects[0])
+    }
+
+    render() {
+        return (
+            <div className='container'>
+                <div className="row">
+                    <div className="col-sm">
+                        <ProjectsTable projects={this.props.projects}
+                                       selectHandler={this.selectProjectHandler}
+                                       deleteHandler={this.deleteProjectHandler}
+                                       saveHandler={this.saveProjectHandler}
+                        />
+                    </div>
+                    <div className="col-sm">
+                        {this.state.selectedProject ? <ProjectCard project={this.state.selectedProject}
+                                     selectNoteHandler={this.props.selectNoteHandler}/> : ''}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 
 Projects.propTypes = {
     projects: PropTypes.arrayOf(ProjectType).isRequired,
-    deleteHandler: PropTypes.func.isRequired,
-    saveHandler: PropTypes.func.isRequired,
+    deleteProjectHandler: PropTypes.func.isRequired,
+    saveProjectHandler: PropTypes.func.isRequired,
+    selectNoteHandler: PropTypes.func.isRequired
 }
 
 export default Projects

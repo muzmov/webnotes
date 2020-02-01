@@ -25,18 +25,20 @@ module.exports = {
             }));
 
             app.get('/api/tasks', (req, res) => res.send([
-                {id: 1, text: 'Забрать кофе', context: 'По пути с работы', priority: 1, timeEstimation: 15},
-                {id: 2, text: 'Выбрать отель в Дубае', context: 'Дома', priority: 2, timeEstimation: 30},
-                {id: 3, text: 'Добавить проекты', context: 'Дома', priority: 1, timeEstimation: 30},
-                {id: 4, text: 'Добавить справочную информацию', context: 'Дома', priority: 2, timeEstimation: 2 * 60}
+                {id: 1, text: 'Забрать кофе', context: 'По пути с работы', priority: 1, timeEstimation: 15, done: false},
+                {id: 2, text: 'Выбрать отель в Дубае', context: 'Дома', priority: 2, timeEstimation: 30, projectId: 2, done: true},
+                {id: 3, text: 'Добавить проекты', context: 'Дома', priority: 1, timeEstimation: 30, projectId: 3, done: true},
+                {id: 4, text: 'Добавить справочную информацию', context: 'Дома', priority: 2, timeEstimation: 2 * 60, projectId: 3}
             ]));
             app.get('/api/projects', (req, res) => res.send([
                 {id: 2, title: 'Отдых в феврале'},
                 {id: 3, title: 'Webnotes'},
             ]));
+            // app.get('/api/projects', (req, res) => res.send([]));
             app.get('/api/notes', (req, res) => res.send([
                 {id: 1, title: 'Идеи', text: "Это просто текст для заметки"},
-                {id: 2, title: 'Webnotes', text: "Это просто текст для заметки webnotes"}
+                {id: 2, title: 'Webnotes план', text: "Это просто текст для заметки webnotes", projectId: 3},
+                {id: 3, title: 'Webnotes стек технологий', text: "Это просто текст для заметки webnotes (2)", projectId: 3}
             ]));
             app.post('/api/task', (req, res) => {
                 res.json(req.body.id || Math.floor(Math.random() * Math.floor(100000)));
@@ -63,7 +65,8 @@ module.exports = {
                     options: {
                         presets: ['env', 'react'],
                         plugins: [
-                            require('babel-plugin-transform-class-properties')
+                            require('babel-plugin-transform-class-properties'),
+                            require('babel-plugin-transform-object-rest-spread')
                         ]
                     }
                 }

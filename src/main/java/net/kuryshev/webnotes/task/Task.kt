@@ -13,6 +13,8 @@ data class Task(
     var context: String = "",
     var priority: Int = 1,
     var timeEstimation: Int = 0,
+    @Column(name = "project_id")
+    var projectId: Long? = null,
     @JsonIgnore
     var username: String = ""
 )

@@ -3,11 +3,12 @@ import NotesTable from "./NotesTable";
 import NoteCard from "./NoteCard";
 import PropTypes from "prop-types";
 import NoteType from "./type/NoteType";
+import ProjectType from "../project/type/ProjectType";
 
 class Notes extends React.Component {
 
     state = {
-        selectedNote: null
+        selectedNote: this.props.selectedNote
     }
 
     selectHandler = (note) => {
@@ -35,7 +36,7 @@ class Notes extends React.Component {
                         </button>
                     </div>
                     <div className="col-sm">
-                        <NoteCard note={this.state.selectedNote}
+                        <NoteCard note={this.state.selectedNote} projects={this.props.projects}
                                   saveHandler={this.saveHandler}
                                   deleteHandler={this.deleteHandler}/>
                     </div>
@@ -47,6 +48,8 @@ class Notes extends React.Component {
 
 Notes.propTypes = {
     notes: PropTypes.arrayOf(NoteType).isRequired,
+    projects: PropTypes.arrayOf(ProjectType).isRequired,
+    selectedNote: NoteType,
     deleteHandler: PropTypes.func.isRequired,
     saveHandler: PropTypes.func.isRequired
 }
