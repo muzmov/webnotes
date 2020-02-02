@@ -1,8 +1,10 @@
 package net.kuryshev.webnotes.project
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class ProjectService(val projectRepository: ProjectRepository) {
     fun getProjectForUser(id: Long, username: String): Project {
         return projectRepository.getByIdAndUsername(id, username) ?: throw IllegalArgumentException()
