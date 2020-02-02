@@ -1,4 +1,4 @@
-package net.kuryshev.webnotes
+package net.kuryshev.webnotes.task
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
@@ -13,6 +13,8 @@ data class Task(
     var context: String = "",
     var priority: Int = 1,
     var timeEstimation: Int = 0,
+    @Column(name = "project_id")
+    var projectId: Long? = null,
     @JsonIgnore
     var username: String = ""
 )

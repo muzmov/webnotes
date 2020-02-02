@@ -1,0 +1,16 @@
+<dataset>
+    <Project id="-1" title="simple project" username="leshiffre"/>
+    <Project id="-2" title="project with notes" username="leshiffre"/>
+    <Project id="-3" title="project with tasks" username="leshiffre"/>
+    <Project id="-4" title="project with tasks and notes" username="leshiffre"/>
+
+    <Note id="-1" title="note 1" text="text" username="leshiffre"/>
+    <Note id="-2" title="note 2" text="text" username="leshiffre" project_id="-2"/>
+    <Note id="-3" title="note 3" text="text" username="leshiffre" project_id="-4"/>
+    <Note id="-4" title="note 4" text="text" username="leshiffre" project_id="-4"/>
+
+    <Task id="-1" text="task 1" priority="1" time_estimation="0" username="leshiffre"/>
+    <Task id="-2" text="task 2" priority="1" time_estimation="0" username="leshiffre" project_id="-3"/>
+    <Task id="-3" text="task 3" priority="1" time_estimation="0" username="leshiffre" project_id="-4"/>
+    <Task id="-4" text="task 4" priority="1" time_estimation="0" username="leshiffre" project_id="-4"/>
+</dataset>

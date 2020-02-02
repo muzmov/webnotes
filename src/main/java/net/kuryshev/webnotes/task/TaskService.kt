@@ -1,4 +1,4 @@
-package net.kuryshev.webnotes
+package net.kuryshev.webnotes.task
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
