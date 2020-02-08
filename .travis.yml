@@ -8,6 +8,11 @@ before_install:
 script:
   - docker run muzmov/webnotes-test
 
+after_success:
+  - docker build -t muzmov/webnotes .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push muzmov/webnotes
+
 deploy:
   provider: elasticbeanstalk
   region: "us-east-2"
