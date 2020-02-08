@@ -1,17 +1,13 @@
 {
-  "AWSEBDockerrunVersion": 2,
-  "containerDefinitions": [
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "muzmov/webnotes",
+    "Update": "true"
+  },
+  "Ports": [
     {
-      "name": "webnotes",
-      "image": "muzmov/webnotes",
-      "hostname": "webnotes",
-      "essential": true,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 80
-        }
-      ]
+      "ContainerPort": 8080,
+      "HostPort": 80
     }
   ]
 }
