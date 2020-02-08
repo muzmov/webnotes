@@ -16,7 +16,6 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log("ComponentDidMount")
         Promise.all([
             fetch('/api/tasks')
                 .then(response => response.json()),
@@ -127,7 +126,6 @@ export default class App extends React.Component {
         fetch(`/api/project/${id}`, {
             method: 'DELETE'
         }).then(() => {
-            console.log("Project Deleted")
             const projects = this.state.projects.filter(p => p.id !== id)
             this.bindProjects([this.state.tasks, projects, this.state.notes])
         })

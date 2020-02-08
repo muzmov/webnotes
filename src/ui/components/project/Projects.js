@@ -11,11 +11,7 @@ class Projects extends React.Component {
     }
 
     componentWillReceiveProps(props, state) {
-        console.log(props)
-        console.log(state)
-        console.log(this.state)
-        console.log(props.projects.some(p => p.id === this.state.selectedProject.id))
-        if (!props.projects.some(p => p.id === this.state.selectedProject.id)) {
+        if (!this.state.selectedProject || !props.projects.some(p => p.id === this.state.selectedProject.id)) {
             this.setState({selectedProject: props.projects[0]})
         }
     }
@@ -24,12 +20,10 @@ class Projects extends React.Component {
 
     deleteProjectHandler = (projectId) => {
         this.props.deleteProjectHandler(projectId)
-        //this.selectProjectHandler(this.props.projects[0])
     }
 
     saveProjectHandler = (project) => {
         this.props.saveProjectHandler(project)
-        //this.selectProjectHandler(this.props.projects[0])
     }
 
     render() {

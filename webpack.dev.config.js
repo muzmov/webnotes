@@ -30,11 +30,11 @@ module.exports = {
                 {id: 3, text: 'Добавить проекты', context: 'Дома', priority: 1, timeEstimation: 30, projectId: 3, done: true},
                 {id: 4, text: 'Добавить справочную информацию', context: 'Дома', priority: 2, timeEstimation: 2 * 60, projectId: 3}
             ]));
-            app.get('/api/projects', (req, res) => res.send([
-                {id: 2, title: 'Отдых в феврале'},
-                {id: 3, title: 'Webnotes'},
-            ]));
-            // app.get('/api/projects', (req, res) => res.send([]));
+            // app.get('/api/projects', (req, res) => res.send([
+            //     {id: 2, title: 'Отдых в феврале'},
+            //     {id: 3, title: 'Webnotes'},
+            // ]));
+            app.get('/api/projects', (req, res) => res.send([]));
             app.get('/api/notes', (req, res) => res.send([
                 {id: 1, title: 'Идеи', text: "Это просто текст для заметки"},
                 {id: 2, title: 'Webnotes план', text: "Это просто текст для заметки webnotes", projectId: 3},

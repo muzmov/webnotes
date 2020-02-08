@@ -97,9 +97,9 @@ export class TaskRow extends React.Component {
         projects.push({id: null, title: ''});
         projects.sort((b, a) => b.title.localeCompare(a.title))
         return (
-            <select className="form-control" id="taskProjectInput" value={task.projectId}
+            <select className="form-control" id="taskProjectInput" value={task.projectId || ""}
                     onChange={e => this.changeProjectIdHandler( e.target.value === null ? null : +e.target.value)}>
-                {projects.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
+                {projects.map(p => <option key={p.id} value={p.id || ""}>{p.title}</option>)}
             </select>
         )
     }
