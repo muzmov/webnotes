@@ -26,15 +26,15 @@ module.exports = {
 
             app.get('/api/tasks', (req, res) => res.send([
                 {id: 1, text: 'Забрать кофе', context: 'По пути с работы', priority: 1, timeEstimation: 15, done: false},
-                {id: 2, text: 'Выбрать отель в Дубае', context: 'Дома', priority: 2, timeEstimation: 30, projectId: 2, done: true},
+                {id: 2, text: 'Выбрать отель в Дубае', context: 'Дома', priority: 2, timeEstimation: 30, projectId: 2, done: false},
                 {id: 3, text: 'Добавить проекты', context: 'Дома', priority: 1, timeEstimation: 30, projectId: 3, done: true},
-                {id: 4, text: 'Добавить справочную информацию', context: 'Дома', priority: 2, timeEstimation: 2 * 60, projectId: 3}
+                {id: 4, text: 'Добавить справочную информацию', context: 'Дома', priority: 3, timeEstimation: 2 * 60, projectId: 3, done: true}
             ]));
-            // app.get('/api/projects', (req, res) => res.send([
-            //     {id: 2, title: 'Отдых в феврале'},
-            //     {id: 3, title: 'Webnotes'},
-            // ]));
-            app.get('/api/projects', (req, res) => res.send([]));
+            app.get('/api/projects', (req, res) => res.send([
+                {id: 2, title: 'Отдых в феврале'},
+                {id: 3, title: 'Webnotes'},
+            ]));
+            // app.get('/api/projects', (req, res) => res.send([]));
             app.get('/api/notes', (req, res) => res.send([
                 {id: 1, title: 'Идеи', text: "Это просто текст для заметки"},
                 {id: 2, title: 'Webnotes план', text: "Это просто текст для заметки webnotes", projectId: 3},
@@ -70,7 +70,8 @@ module.exports = {
                         ]
                     }
                 }
-            }
+            },
+            { test: /\.css$/, loader: "style-loader!css-loader" }
         ]
     },
     plugins: [
