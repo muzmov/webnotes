@@ -1,9 +1,9 @@
 import React from 'react'
-import Tasks from "./task/Tasks";
 import Tabs from "./nav/Tabs";
-import {INFO_TAB, PROJECTS_TAB, TASKS_TAB} from "./nav/TabConstants";
+import {DONE_TASKS_TAB, INFO_TAB, PROJECTS_TAB, TASKS_TAB} from "./nav/TabConstants";
 import Notes from "./note/Notes";
 import Projects from "./project/Projects";
+import Tasks from "./task/Tasks";
 
 export default class App extends React.Component {
 
@@ -157,8 +157,11 @@ export default class App extends React.Component {
                     <div className="row mt-3">
                         <div className="col-sm">
                             {this.state.activeTab === TASKS_TAB ?
-                                <Tasks tasks={this.state.tasks} projects={this.state.projects} deleteHandler={this.deleteTaskHandler}
-                                       saveHandler={this.saveTaskHandler}/> : ""}
+                                <Tasks tasks={this.state.tasks.filter(it => !it.done)} projects={this.state.projects} deleteHandler={this.deleteTaskHandler}
+                                           saveHandler={this.saveTaskHandler} creationRow={true}/> : ""}
+                            {this.state.activeTab === DONE_TASKS_TAB ?
+                                <Tasks tasks={this.state.tasks.filter(it => it.done)} projects={this.state.projects} deleteHandler={this.deleteTaskHandler}
+                                       saveHandler={this.saveTaskHandler} creationRow={false}/> : ""}
                             {this.state.activeTab === PROJECTS_TAB ?
                                 <Projects projects={this.state.projects}
                                           deleteProjectHandler={this.deleteProjectHandler}
