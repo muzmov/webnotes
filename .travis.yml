@@ -20,6 +20,7 @@ deploy:
   env: "notes-env"
   bucket_name: "elasticbeanstalk-us-east-2-995459693010"
   bucket_path: "notes"
+  zip_file: Dockerrun.aws.json
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
