@@ -1,12 +1,13 @@
 import React from 'react'
 import ProjectType from "./type/ProjectType";
 import PropTypes from 'prop-types'
+import Checkbox from "../ui/Checkbox";
 
 const getTaskItem = (task) => (
     <div className="input-group" key={task.id}>
         <div className="input-group-prepend">
             <div className="input-group-text">
-                <input type="checkbox" checked={task.done} readOnly={true}/>
+                <Checkbox checked={task.done} style={{verticalAlign: "unset"}}/>
             </div>
         </div>
         <input type="text" className="form-control" value={task.text} disabled={true}/>

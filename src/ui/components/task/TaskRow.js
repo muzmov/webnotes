@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import TaskType from "./type/TaskType";
 import ProjectType from "../project/type/ProjectType";
+import Checkbox from "../ui/Checkbox";
 
 export const SHOW_MODE = 'SHOW'
 export const EDIT_MODE = 'EDIT'
@@ -9,7 +10,7 @@ export const EDIT_MODE = 'EDIT'
 export class TaskRow extends React.Component {
 
     state = {
-        task: Object.assign({}, this.props.task),
+        task: Object.assign({done: false, priority: 1}, this.props.task),
         mode: this.props.mode,
         isNew: !this.props.task
     }
@@ -43,17 +44,25 @@ export class TaskRow extends React.Component {
         }
     }
 
+    checkedHandler = () => {
+        const task = {...this.state.task, done: !this.state.task.done}
+        this.props.saveHandler(task)
+    }
+
     render() {
         const task = this.state.task
         return this.state.mode === SHOW_MODE ? this.showTaskItem(task) : this.editTaskItem(task)
     }
 
-    showTaskItem(task) {
+    showTaskItem = (task) => {
         return <tr>
-            <th scope="row">{task.id}</th>
+            <td>
+                <Checkbox checked={task.done || false} changeHandler={this.checkedHandler}/>
+            </td>
             <td>{task.text}</td>
             <td>{task.context}</td>
             <td>{(task.project || {}).title || ''}</td>
+            <td>{task.priority}</td>
             <td>
                 <button className="btn btn-primary" onClick={() => this.changeModeHandler(EDIT_MODE)}>
                     <i className="fa fa-edit"/>
@@ -67,7 +76,7 @@ export class TaskRow extends React.Component {
 
     editTaskItem = (task) => (
         <tr>
-            <th scope="row">{task.id || ""}</th>
+            <td/>
             <td>
                 <input type="text" className="form-control" id="taskTextInput"
                        placeholder="Что надо сделать?" value={task.text || ''}
@@ -80,6 +89,12 @@ export class TaskRow extends React.Component {
             </td>
             <td>
                 {this.selectProjectItem(task)}
+            </td>
+            <td>
+                <select className="form-control" id="taskPriorityInput" value={task.priority || ''}
+                        onChange={e => this.changeHandler('priority', +e.target.value)}>
+                    {[1, 2, 3, 4, 5].map(i => <option key={i} value={i}>{i}</option>)}
+                </select>
             </td>
             <td>
                 <button className="btn btn-primary" onClick={this.saveHandler}>
@@ -98,7 +113,7 @@ export class TaskRow extends React.Component {
         projects.sort((b, a) => b.title.localeCompare(a.title))
         return (
             <select className="form-control" id="taskProjectInput" value={task.projectId || ""}
-                    onChange={e => this.changeProjectIdHandler( e.target.value === null ? null : +e.target.value)}>
+                    onChange={e => this.changeProjectIdHandler(e.target.value === null ? null : +e.target.value)}>
                 {projects.map(p => <option key={p.id} value={p.id || ""}>{p.title}</option>)}
             </select>
         )
