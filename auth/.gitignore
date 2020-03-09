@@ -1,5 +1,5 @@
+HELP.md
 target/
-node/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -29,7 +29,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-# Project exclude paths
-/ui/node_modules/
-/ui/target/

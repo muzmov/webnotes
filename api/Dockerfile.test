@@ -1,0 +1,17 @@
+FROM maven:latest as builder
+
+RUN groupadd -g 999 test && \
+    useradd -r -u 999 -g test -m test
+USER test
+
+WORKDIR /usr/app
+ADD pom.xml .
+RUN mvn dependency:go-offline
+ADD . .
+
+USER root
+RUN chmod -R 777 /usr/app
+
+USER test
+ENV spring_profiles_active test
+CMD ["mvn", "test"]

@@ -4,14 +4,18 @@ services:
     image: postgres:10.7-alpine
     ports:
       - 5433:5432
-  server:
+  api:
     build:
-      context: .
+      context: ./api
     environment:
       - RDS_USERNAME=postgres
       - RDS_PASSWORD=postgres_password
       - RDS_HOSTNAME=postgres
       - RDS_PORT=5432
       - RDS_DB_NAME=postgres
+  nginx:
+    build:
+      context: ./ui
+    restart: always
     ports:
-      - 8080:8080
+      - 80:80

@@ -27,9 +27,5 @@ node/
 /.nb-gradle/
 build/
 
-### VS Code ###
-.vscode/
-
 # Project exclude paths
-/ui/node_modules/
-/ui/target/
+/node_modules/
