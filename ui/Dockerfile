@@ -5,7 +5,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:latest
+FROM nginx:alpine
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/target /etc/nginx/html
 EXPOSE 8080 8443
