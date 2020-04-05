@@ -8,6 +8,8 @@ RUN npm run build
 FROM nginx:latest
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/target /etc/nginx/html
+RUN chgrp -R root /var/cache/nginx /var/run /var/log/nginx && \
+    chmod -R 770 /var/cache/nginx /var/run /var/log/nginx
 EXPOSE 8080 8443
 CMD ["nginx", "-g", "daemon off;"]
 
