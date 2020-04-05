@@ -1,4 +1,4 @@
-FROM maven:latest as builder
+FROM maven:alpine as builder
 
 WORKDIR /usr/app
 ADD pom.xml .
