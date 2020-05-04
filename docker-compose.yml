@@ -1,18 +1,36 @@
 version: '3'
 services:
-  postgres:
+  postgres-main:
     image: postgres:10.7-alpine
     ports:
       - 5432:5432
   api:
     build:
       context: ./api
+    restart: always
     environment:
       - RDS_USERNAME=postgres
       - RDS_PASSWORD=postgres_password
-      - RDS_HOSTNAME=postgres
+      - RDS_HOSTNAME=postgres-main
       - RDS_PORT=5432
       - RDS_DB_NAME=postgres
+      - SECURITY_SIGN_KEY=123456
+  postgres-user:
+    image: postgres:10.7-alpine
+    ports:
+      - "5433:5433"
+    command: -p 5433
+  auth:
+    build:
+      context: ./auth
+    restart: always
+    environment:
+      - RDS_USERNAME=postgres
+      - RDS_PASSWORD=postgres_password
+      - RDS_HOSTNAME=postgres-user
+      - RDS_PORT=5433
+      - RDS_DB_NAME=postgres
+      - SECURITY_SIGN_KEY=123456
   nginx:
     build:
       context: ./ui

@@ -9,7 +9,7 @@ RUN mvn clean install -Dmaven.test.skip=true
 
 FROM openjdk:8-jre-alpine
 WORKDIR /usr/app
-COPY --from=builder /usr/app/target/api.jar .
+COPY --from=builder /usr/app/target/auth.jar .
 ENV spring_profiles_active prod
-EXPOSE 8080
-CMD ["java", "-jar", "api.jar"]
+EXPOSE 8081
+CMD ["java", "-jar", "auth.jar"]

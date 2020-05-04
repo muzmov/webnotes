@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+        version: v1
+    spec:
+      containers:
+        - name: api
+          image: muzmov/webnotes-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RDS_USERNAME
+              value: postgres
+            - name: RDS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+            - name: RDS_HOSTNAME
+              value: postgres-main
+            - name: RDS_PORT
+              value: "5432"
+            - name: RDS_DB_NAME
+              value: postgres
+            - name: SECURITY_SIGN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: security-sign-key
+                  key: SECURITY_SIGN_KEY

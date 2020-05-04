@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-main-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: postgres-main
+  template:
+    metadata:
+      labels:
+        app: postgres-main
+    spec:
+      volumes:
+        - name: postgres-storage-main
+          persistentVolumeClaim: 
+            claimName: db-pvc
+      containers:
+        - name: postgres-main
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage-main
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef: 
+                  name: pgpassword
+                  key: PGPASSWORD
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres

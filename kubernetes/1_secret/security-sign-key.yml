@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: security-sign-key
+data:
+  SECURITY_SIGN_KEY: YTc4YTNhZmJpN2FvM2k3YnZhM29pN2J2YQ==
